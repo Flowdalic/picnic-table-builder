@@ -1,0 +1,137 @@
+plugins {
+	id 'eclipse'
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	api 'com.jakewharton.picnic:picnic:0.5.0'
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+version readVersionFile()
+
+ext {
+	gitCommit = getGitCommit()
+	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+	toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+jar {
+	manifest {
+		attributes(
+			'Implementation-Version': archiveVersion,
+			'Implementation-GitRevision': rootProject.ext.gitCommit,
+			'Built-Date': rootProject.ext.builtDate,
+			'Built-JDK': System.getProperty('java.version'),
+			'Built-Gradle': gradle.gradleVersion,
+			'Built-By': System.getProperty('user.name'),
+		)
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId = 'eu.geekplace'
+			artifactId = 'picnic-table-builder'
+
+			from components.java
+
+			pom {
+				name = 'My Library'
+                description = 'A concise description of my library'
+                url = 'https://github.com/Flowdalic/picnic-table-builder'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'flow'
+                        name = 'Florian Schmaus'
+                        email = 'flo@geekplace.eu'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/Flowdalic/picnic-table-builder.git'
+                    developerConnection = 'scm:git:git@github.com:Flowdalic/picnic-table-builder.git'
+                    url = 'https://github.com/Flowdalic/picnic-table-builder'
+                }
+			}
+		}
+	}
+	repositories {
+		maven {
+			def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+            url = version.endsWith('-SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+			credentials {
+				username = sonatypeUsername
+				password = sonatypePassword
+			}
+		}
+	}
+}
+
+signing {
+	useGpgCmd()
+    sign publishing.publications.mavenJava
+}
+
+def readVersionFile() {
+	def versionFile = new File(rootDir, 'version')
+	if (!versionFile.isFile()) {
+		throw new Exception("Could not find version file")
+	}
+	if (versionFile.text.isEmpty()) {
+		throw new Exception("Version file does not contain a version")
+	}
+	versionFile.text.trim()
+}
+
+def getGitCommit() {
+	def projectDirFile = new File("$projectDir")
+	def dotGit = new File(projectDirFile, ".git")
+	if (!dotGit.isDirectory()) return 'non-git build'
+
+	def cmd = 'git describe --always --tags --dirty=+'
+	def proc = cmd.execute(null, projectDirFile)
+	proc.waitForOrKill(10 * 1000)
+
+	def gitCommit = proc.text.trim()
+	assert !gitCommit.isEmpty()
+
+    def srCmd = 'git symbolic-ref --short HEAD'
+    def srProc = srCmd.execute(null, projectDirFile)
+    srProc.waitForOrKill(10 * 1000)
+    if (srProc.exitValue() == 0) {
+        // Only add the information if the git command was
+        // successful. There may be no symbolic reference for HEAD if
+        // e.g. in detached mode.
+        def symbolicReference = srProc.text.trim()
+        assert !symbolicReference.isEmpty()
+        gitCommit += "-$symbolicReference"
+    }
+
+	gitCommit
+}
