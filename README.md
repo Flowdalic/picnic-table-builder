@@ -5,10 +5,11 @@ Java & Co. to create HTML-like tables that are nice looking when
 rendered as Unicode or ASCII. The provided `TableBuilder` is a
 Java-shim over [Jake Wharton's great Picnic Tables (picnic)
 library](https://github.com/JakeWharton/picnic/). Unfortunately,
-picnic itself is not accessible from Scala (appearantly due to its
-usage of Kotlin's @set:JvmSynthetic annotation). Picnic Table Builder,
-i.e., this library, solves this issue. It furthmore provides a IMHO
-more idiomatic and easier to use builder API than upstream does.
+picnic itself is not accessible from Scala (apparently due to its
+usage of Kotlin's `@set:JvmSynthetic` annotation). Picnic Table
+Builder, i.e., this library, solves this issue. It furthermore
+provides an IMHO more idiomatic and easier to use builder API than
+upstream does.
 
 Originally submitted for upstream inclusion as [Picnic PR
 #33](https://github.com/JakeWharton/picnic/pull/33), it is now
