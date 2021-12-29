@@ -56,8 +56,8 @@ publishing {
 			from components.java
 
 			pom {
-				name = 'My Library'
-                description = 'A concise description of my library'
+				name = 'Picnic Table Builder'
+                description = 'Easy API to create HTML-like tables that look nice when rendered as Unicode / ASCII'
                 url = 'https://github.com/Flowdalic/picnic-table-builder'
                 licenses {
                     license {
