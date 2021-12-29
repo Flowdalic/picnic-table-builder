@@ -89,7 +89,7 @@ Where `table.toString()` yields:
 
 ## Maven Coordinates
 
-This library is available on OSS Sonatype.
+This library is [available on Maven Central](https://search.maven.org/artifact/eu.geekplace/picnic-table-builder).
 
 ### Gradle
 
