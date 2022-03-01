@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// Copyright © 2021 Florian Schmaus
+// Copyright © 2021-2022 Florian Schmaus
 package eu.geekplace.picnic;
 
 import java.util.function.Consumer;
@@ -211,7 +211,7 @@ public final class TableBuilder implements CellStyleable {
         }
     }
 
-    public static final class RowBuilder<B extends TableSectionBuilder<B>> {
+    public static final class RowBuilder<B extends TableSectionBuilder<B>> implements CellStyleable {
         private final Row.Builder rowBuilder = new Row.Builder();
         private final TableSectionBuilder<B> tableSectionBuilder;
 
@@ -230,6 +230,15 @@ public final class TableBuilder implements CellStyleable {
 
         public TableSectionBuilder<B> endRow() {
             return tableSectionBuilder.addRow(rowBuilder.build());
+        }
+
+        @Override
+        public void setCellStyle(CellStyle cellStyle) {
+            rowBuilder.setCellStyle(cellStyle);
+        }
+
+        public CellStyleBuilder<RowBuilder<B>> withCellStyle() {
+            return new CellStyleBuilder<>(this);
         }
     }
 
