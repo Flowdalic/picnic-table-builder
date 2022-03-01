@@ -20,7 +20,7 @@ import com.jakewharton.picnic.TextAlignment;
  * The Scala incompatibility of {@link Table.Builder} comes from the fact that
  * Scala does not seem to understand Kotlins {@code @set:JvmSynthetic}
  * annotation. And since this annotation is used in Picnic to hide Kotlin setter
- * methods from Java (and, in turn from Scala), the Scala compiler failes to
+ * methods from Java (and, in turn from Scala), the Scala compiler fails to
  * resolve a method reference:
  * </p>
  * <pre>
