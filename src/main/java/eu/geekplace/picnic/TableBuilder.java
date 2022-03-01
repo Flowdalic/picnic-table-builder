@@ -264,6 +264,14 @@ public final class TableBuilder implements CellStyleable {
             this.tableSectionBuilder = tableSectionBuilder;
         }
 
+        public RowBuilder<B> cell(String cellContent) {
+            return addCell(cellContent).endCell();
+        }
+
+        public RowBuilder<B> cell(String cellContent, int columnSpan) {
+            return addCell(cellContent).setColumnSpan(columnSpan).endCell();
+        }
+
         public RowBuilder<B> addCell(Cell cell) {
             rowBuilder.addCell(cell);
             return this;
