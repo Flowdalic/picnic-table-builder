@@ -281,7 +281,7 @@ public final class TableBuilder implements CellStyleable {
             return new CellBuilder<>(cellContent, this);
         }
 
-        public TableSectionBuilder<B> endRow() {
+        public B endRow() {
             return tableSectionBuilder.addRow(rowBuilder.build());
         }
 
