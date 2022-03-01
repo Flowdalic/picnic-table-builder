@@ -109,6 +109,51 @@ public final class TableBuilder implements CellStyleable {
             this.cellStyleable = cellStyleable;
         }
 
+        public CellStyleBuilder<C> alignment(TextAlignment textAlignment) {
+            return setAlignment(textAlignment);
+        }
+
+        public CellStyleBuilder<C> paddingLeft(int paddingLeft) {
+            return setPaddingLeft(paddingLeft);
+        }
+
+        public CellStyleBuilder<C> paddingRight(int paddingRight) {
+            return setPaddingRight(paddingRight);
+        }
+
+        public CellStyleBuilder<C> paddingTop(int paddingTop) {
+            return setPaddingTop(paddingTop);
+        }
+
+        public CellStyleBuilder<C> paddingBottom(int paddingBottom) {
+            return setPaddingBottom(paddingBottom);
+        }
+
+        public CellStyleBuilder<C> padding(int padding) {
+            return setPadding(padding);
+        }
+
+        public CellStyleBuilder<C> borderLeft(boolean borderLeft) {
+            return setBorderLeft(borderLeft);
+        }
+
+        public CellStyleBuilder<C> borderRight(boolean borderRight) {
+            return setBorderRight(borderRight);
+        }
+
+        public CellStyleBuilder<C> borderTop(boolean borderTop) {
+            return setBorderTop(borderTop);
+        }
+
+        public CellStyleBuilder<C> borderBottom(boolean borderBottom) {
+            return setBorderBottom(borderBottom);
+        }
+
+        public CellStyleBuilder<C> border(boolean border) {
+            cellStyleBuilder.setBorder(border);
+            return this;
+        }
+
         public CellStyleBuilder<C> setAlignment(TextAlignment textAlignment) {
             cellStyleBuilder.setAlignment(textAlignment);
             return this;
